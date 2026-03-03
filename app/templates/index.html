@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Oasis Chichigalpa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="logo-container">
+                <span class="font-script mini-text">Bar</span>
+                <h1 class="font-oasis">OASIS</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#inicio" class="active">Inicio</a></li>
+                    <li><a href="#menu-section">Menú</a></li>
+                    <li><a href="#contacto">Ubicación</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-overlay">
+            <div class="container hero-text-container">
+                <div class="hidden-text-elements">
+                    <h2 class="font-script accent-text">Bienvenidos a</h2>
+                    <h1 class="font-oasis big-title">OASIS</h1>
+                    <h3 class="font-script subtitle">Chichigalpa</h3>
+                    <p>La mejor noche, los mejores tragos.</p>
+                </div>
+                <a href="#menu-section" class="btn-gold">Ver Menú</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu-section" class="menu-container container">
+        <h2 class="section-title font-oasis">Nuestro Menú</h2>
+        
+        <div class="menu-tabs">
+            <button class="tab-btn active" data-target="cerveza">Cervezas</button>
+            <button class="tab-btn" data-target="licor">Licor</button>
+            <button class="tab-btn" data-target="tabaco">Tabaco</button>
+            <button class="tab-btn" data-target="para-picar">Para Picar</button>
+            <button class="tab-btn" data-target="bebidas-sin-licor">Bebidas sin Licor</button>
+        </div>
+
+        <div class="menu-content-wrapper">
+            
+            <div id="cerveza" class="menu-content active">
+                <p class="loading-text">Cargando cervezas... 🍺</p>
+            </div>
+            
+            <div id="licor" class="menu-content">
+                <p class="loading-text">Cargando licores... 🥃</p>
+            </div>
+
+            <div id="tabaco" class="menu-content">
+                <p class="loading-text">Cargando opciones... 🚬</p>
+            </div>
+
+            <div id="para-picar" class="menu-content">
+                <p class="loading-text">Preparando el menú... 🍟</p>
+            </div>
+
+            <div id="bebidas-sin-licor" class="menu-content">
+                <p class="loading-text">Cargando bebidas... 🥤</p>
+            </div>
+
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <h2 class="font-oasis">OASIS</h2>
+                 <span class="font-script">Chichigalpa</span>
+            </div>
+            <div class="footer-info">
+                <p>Abierto de Lunes a Domingo - 5PM a 12AM</p>
+                <p>Dirección Principal, Chichigalpa.</p>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>© 2026 Logic Look. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <div id="modalPlato" class="modal-overlay" onclick="cerrarPlato(event)">
+        <div class="modal-card-dark">
+            <span class="close-modal" onclick="cerrarPlato(event)">&times;</span>
+            
+            <div class="modal-img-container">
+                <img id="imgPlato" src="" alt="Foto del plato">
+            </div>
+            
+            <div class="modal-info">
+                <h2 id="tituloPlato" class="font-oasis">Nombre del Plato</h2>
+                <p id="descPlato" class="font-body">Descripción del detalle...</p>
+                <div class="price-badge" id="precioPlato">C$ 00.00</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

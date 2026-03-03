@@ -1,0 +1,205 @@
+/* --- Variables de la Marca --- */
+:root {
+    --color-gold: #d4af37;        /* Dorado Principal */
+    --color-gold-dark: #b38f2d;   /* Dorado Oscuro para hover */
+    --color-dark-bg: #0a0000;     /* Negro profundo rojizo */
+    --color-card-bg: rgba(16, 4, 4, 0.95); /* Fondo de tarjeta semi-transparente */
+    --color-text-light: #ffffff;
+    --color-text-muted: #aaaaaa;
+    
+    --font-oasis: 'Cinzel Decorative', cursive;
+    --font-script: 'Dancing Script', cursive;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-body);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-dark-bg);
+    overflow: hidden; /* Evita scroll por el efecto de fondo */
+}
+
+/* --- FONDO DESENFOCADO (El Truco Mágico) --- */
+/* Usamos un pseudo-elemento para que el fondo se desenfoque 
+   sin afectar la nitidez de la tarjeta de login */
+body::before {
+    content: "";
+    position: fixed;
+    top: -10px; left: -10px; /* Un pequeño margen para evitar bordes blancos al desenfocar */
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    /* Asegúrate de que la imagen esté en static/img/login-bg.jpg */
+    background: url('../img/login-bg.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(8px) brightness(0.4); /* Desenfoque intenso y oscurecimiento */
+    z-index: -1; /* Se coloca detrás de todo */
+}
+
+
+/* --- Tarjeta de Login --- */
+.login-card {
+    background-color: var(--color-card-bg);
+    padding: 3rem 2.5rem;
+    border-radius: 15px;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    color: var(--color-text-light);
+    /* Sombra dorada sutil para un efecto "premium" */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    backdrop-filter: blur(5px); /* Un ligero efecto vidrio extra en la propia tarjeta */
+}
+
+/* Tipografía del Encabezado */
+.login-header { margin-bottom: 2.5rem; }
+
+.subtitle {
+    color: var(--color-gold);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* --- Inputs Elegantes --- */
+.input-group {
+    position: relative;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 15px 10px;
+    font-size: 1rem;
+    font-family: var(--font-body);
+    color: var(--color-text-light);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #333;
+    outline: none;
+    transition: 0.3s all ease;
+}
+
+/* Estilo de la etiqueta (label) */
+.input-group label {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+    color: var(--color-text-muted);
+    font-size: 1rem;
+    pointer-events: none; /* Para que el clic pase al input */
+    transition: 0.3s all ease;
+}
+
+/* Efectos al hacer foco en el input */
+.input-group input:focus,
+.input-group input:not(:placeholder-shown) {
+    border-bottom-color: var(--color-gold);
+}
+
+/* Mueve el label hacia arriba cuando escribimos (Efecto flotante) */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    top: -12px;
+    font-size: 0.85rem;
+    color: var(--color-gold);
+    font-weight: bold;
+}
+
+/* Ocultamos el placeholder nativo para usar nuestro label flotante */
+.input-group input::placeholder { color: transparent; }
+
+
+/* --- Botón Dorado --- */
+.btn-login {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(45deg, var(--color-gold-dark), var(--color-gold));
+    color: #1a0505; /* Texto oscuro para contraste */
+    border: none;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.4s;
+    letter-spacing: 2px;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.5);
+    background: linear-gradient(45deg, var(--color-gold), var(--color-gold-dark));
+}
+
+/* Mensajes de error */
+.flash-messages { margin-bottom: 1.5rem; }
+.error-msg { color: #ff6b6b; background: rgba(255,0,0,0.1); padding: 10px; border-radius: 5px; font-size: 0.9rem; }
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+    .login-card { padding: 2rem 1.5rem; }
+    .title { font-size: 1.8rem; }
+}
+
+/* --- Contenedor de los flashes --- */
+#flash-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.flash {
+    background-color: #f44336; 
+    color: white;
+    padding: 15px 25px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    opacity: 0.95;
+    transition: all 0.5s ease;
+    text-align: center;
+    min-width: 200px;
+}
+
+
+.flash.success {
+    background-color: #4CAF50;
+}
+
+.flash.error {
+    background-color: #f44336;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+    to {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+}
+
+.flash.hide {
+    animation: fadeOut 0.5s forwards;
+}

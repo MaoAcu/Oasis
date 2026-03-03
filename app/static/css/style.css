@@ -1,0 +1,388 @@
+/* --- Variables de Color y Tipografía --- */
+:root {
+    --color-bg-dark: #0a0000; /* Fondo casi negro rojizo */
+    --color-bg-secondary: #1a0505; /* Fondo secundario rojizo oscuro */
+    --color-text-light: #ffffff;
+    /* NUEVO COLOR DE ACENTO: Dorado/Amarillo extraído del nuevo logo */
+    --color-accent-gold: #FFC107; 
+    
+    --font-oasis: 'Cinzel Decorative', cursive;
+    --font-script: 'Dancing Script', cursive;
+    --font-body: 'Montserrat', sans-serif;
+}
+
+/* --- Reseteo Básico --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    /* Fondo sutil rojizo oscuro */
+    background-image: 
+        linear-gradient(to bottom, rgba(10, 0, 0, 0.9), rgba(20, 5, 5, 1));
+}
+
+/* --- Clases de Tipografía y Color Genéricas --- */
+.font-oasis { font-family: var(--font-oasis); font-weight: 700; }
+.font-script { font-family: var(--font-script); }
+/* Actualizado a dorado */
+.accent-text { color: var(--color-accent-gold); } 
+
+/* --- Layout General --- */
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+/* --- Header y Nav --- */
+.main-header {
+    background: rgba(10, 0, 0, 0.8); /* Fondo más oscuro y rojizo */
+    backdrop-filter: blur(10px);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255, 193, 7, 0.2); /* Borde dorado sutil */
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+}
+/* Mini texto en dorado */
+.logo-container .mini-text { font-size: 1.2rem; color: var(--color-accent-gold); }
+.logo-container h1 { font-size: 2.5rem; letter-spacing: 2px; }
+
+.main-nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+/* Hover y activo en dorado */
+.main-nav a:hover, .main-nav a.active {
+    color: var(--color-accent-gold);
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.6);
+}
+
+/* --- Hero Section (Portada) --- */
+.hero {
+    height: 100vh;
+    /* background-position: center top; 
+       Ayuda a que si la pantalla es muy angosta (móvil), priorice el centro-arriba 
+       donde suele estar el logo, en lugar de cortar los lados drásticamente.
+    */
+    background: url('../img/background.png') no-repeat center center;
+    background-size: cover; /* Mantiene que cubra toda la pantalla */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* EMPUJA EL CONTENIDO AL FINAL (ABAJO) */
+    align-items: center;
+    position: relative;
+}
+
+.hero-overlay {
+    /* Hacemos un degradado que solo oscurece la parte MUY inferior 
+       para que el botón resalte, pero deja el centro (donde está el logo)
+       totalmente transparente para que se vea nítido.
+    */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(10, 0, 0, 0.9) 100%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    
+    /* Esto es clave: usamos flexbox para alinear el botón abajo dentro del overlay */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Alineación vertical al final */
+    align-items: center; /* Centrado horizontal */
+    padding-bottom: 40px; /* ESPACIO DESDE EL BORDE INFERIOR (Subir/Bajar botón aquí) */
+}
+
+/* Eliminamos márgenes extraños que puedan estar empujando */
+.hero-text-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* OCULTAR el texto HTML porque ya está en la imagen de fondo */
+.hidden-text-elements {
+    display: none;
+}
+
+
+/* Nuevo estilo de botón Dorado */
+.btn-gold {
+    display: inline-block;
+    z-index: 10;
+    margin-top: 0;
+    margin-left: 70px;
+    padding: 1rem 3rem;
+    background-color: transparent;
+    border: 2px solid var(--color-accent-gold);
+    color: var(--color-accent-gold);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    transition: 0.4s;
+    font-size: 1.3rem;
+}
+
+.btn-gold:hover {
+    background: var(--color-accent-gold);
+    color: var(--color-bg-dark);
+    box-shadow: 0 0 25px rgba(255, 193, 7, 0.8);
+}
+
+/* --- Menu Section Interactivo --- */
+.menu-container {
+    padding: 5rem 0;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    color: var(--color-accent-gold); /* Título en dorado */
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+}
+
+/* Estilos de las Pestañas (Tabs) */
+.menu-tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 193, 7, 0.2);
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    border-bottom: 3px solid transparent;
+}
+
+.tab-btn:hover { color: var(--color-accent-gold); }
+
+/* Estado activo de la pestaña en dorado */
+.tab-btn.active {
+    color: var(--color-accent-gold);
+    border-bottom: 3px solid var(--color-accent-gold);
+}
+
+/* Contenido del menú */
+.menu-content {
+    display: none;
+    background: var(--color-bg-secondary);
+    padding: 2rem;
+    border-radius: 10px;
+    /* Borde sutil dorado */
+    border: 1px solid rgba(255, 193, 7, 0.15);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    animation: fadeIn 0.5s ease;
+}
+
+.menu-content.active {
+    display: block;
+}
+
+/* --- BOTÓN OJO DORADO --- */
+.btn-eye {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 12px;
+    padding: 5px 10px;
+    
+    /* Flexbox para alinear texto e icono */
+    display: inline-flex; 
+    align-items: center;
+    gap: 6px; /* Espacio entre la letra y el ojo */
+    
+    /* Borde sutil opcional para que parezca un botón premium */
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+/* La leyenda de texto */
+.eye-text {
+    font-family: var(--font-body); /* Montserrat para que sea legible */
+    font-size: 0.75rem;            /* Pequeño pero visible */
+    color: var(--color-accent-gold);
+    text-transform: uppercase;     /* Mayúsculas elegantes */
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.btn-eye:hover {
+    background-color: rgba(255, 193, 7, 0.1); /* Fondo dorado muy sutil */
+    border-color: var(--color-accent-gold);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.2);
+}
+
+/* --- MODAL OSCURO (VISOR) --- */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Fondo casi negro total */
+    z-index: 2000; /* Encima de todo */
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-card-dark {
+    background: #1a0505; /* Tu color secundario rojizo oscuro */
+    border: 1px solid var(--color-accent-gold); /* Borde dorado fino */
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 30px rgba(255, 193, 7, 0.2);
+    text-align: center;
+}
+
+.modal-img-container {
+    width: 100%;
+    height: 300px;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.modal-img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la foto llene el espacio sin deformarse */
+}
+
+.modal-info {
+    padding: 20px;
+}
+
+#tituloPlato {
+    color: var(--color-accent-gold);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+}
+
+#descPlato {
+    color: #ddd;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}
+
+.price-badge {
+    display: inline-block;
+    background-color: var(--color-accent-gold);
+    color: #1a0505;
+    font-weight: bold;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+}
+
+/* Botón cerrar */
+.close-modal {
+    position: absolute;
+    top: 10px; right: 15px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    text-shadow: 0 0 5px #000;
+    z-index: 10;
+}
+.close-modal:hover { color: var(--color-accent-gold); }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Items del menú */
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.menu-item:last-child { border-bottom: none; }
+
+.item-name { font-size: 1.3rem; margin-bottom: 0.5rem; color: var(--color-text-light); }
+.item-desc { font-size: 0.9rem; color: #bbbbbb; }
+
+/* Precios en dorado */
+.item-price {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--color-accent-gold);
+    white-space: nowrap;
+    margin-left: 1rem;
+    text-shadow: 0 0 5px rgba(255, 193, 7, 0.3);
+}
+
+/* --- Footer --- */
+footer {
+    background: var(--color-bg-secondary);
+    padding: 3rem 0 1rem;
+    text-align: center;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 193, 7, 0.1);
+}
+
+.footer-logo h2 { color: var(--color-accent-gold); font-size: 2rem; }
+.footer-logo span { font-size: 1.5rem; display: block; margin-top: -10px;}
+.footer-info { margin-top: 1.5rem; color: #aaaaaa; }
+.copyright { margin-top: 3rem; font-size: 0.8rem; opacity: 0.6; }
+
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .header-content { flex-direction: column; gap: 1rem; }
+    .main-nav ul { gap: 1rem; }
+    /* Ajuste del botón en móviles */
+    .btn-gold { padding: 0.8rem 2rem; font-size: 1rem; }
+    
+    .menu-item { flex-direction: column; align-items: flex-start; }
+    .item-price { margin-left: 0; margin-top: 0.5rem; align-self: flex-end; }
+    
+    .tab-btn { padding: 0.8rem 1rem; font-size: 1rem; }
+}
