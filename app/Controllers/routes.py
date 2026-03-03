@@ -29,12 +29,12 @@ def DashBoard():
 
 
 
+#@codeVerifiedRequired
 
+@routes_bp.route("/restablecer_contra", endpoint="restablecer_contra")
 
-# @routes_bp.route("/restablecer_contra", endpoint="restablecer_contra")
-# @codeVerifiedRequired
-# def RestablecerContra():
-#     return render_template('restablecer-contrasena.html')
+def RestablecerContra():
+    return render_template('restablecer-contrasena.html')
 
 # @routes_bp.route("/codigo_restablecer", endpoint="codigo_restablecer")
 # def CodigoRestablecer():
@@ -48,12 +48,11 @@ def DashBoard():
 # @routes_bp.route("/recuperar_Contra", endpoint="recuperar_Contra")
 # def RecuperarContrasena():
 #     return render_template("recuperar-Contrasena.html")
-
-# @routes_bp.route("/Codigo", endpoint="Codigo")
 # @loginRequired
 # @noCache
-# def codigo_verificacion():
-#     return render_template('codigo-verificacion.html')
+@routes_bp.route("/Codigo", endpoint="Codigo")
+def codigo_verificacion():
+    return render_template('codigo-verificacion.html')
 
 
 

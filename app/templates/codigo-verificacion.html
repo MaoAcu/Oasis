@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación · Bar Oasis</title>
+    <!-- fuentes (misma paleta: Cinzel + Montserrat, más un toque Dancing Script opcional) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verificarcodigo.css') }}">
+</head>
+<body>
+    <div id="flash-container"></div> <!-- para mensajes dinámicos -->
+
+    <main class="oasis-card">
+        <!-- Logo estilo oasis (tipográfico pero evocador) -->
+        <div class="logo-oasis">
+            <div class="logo-icon">Oasis</div>
+            <div class="logo-sub">BAR & CATERING</div>
+        </div>
+
+        <header>
+            <h1>VERIFICACIÓN</h1>
+            <div class="lead">Ingresa el código de 6 dígitos enviado a tu dispositivo.</div>
+        </header>
+
+        <!-- Formulario con método POST (acción igual que en el ejemplo) -->
+        <form method="post" action="/auth/verificar-codigo" id="otp-form">
+            <!-- campos OTP visibles -->
+            <div class="otp-wrapper" id="otp-container">
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
+                <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
+            </div>
+
+            <!-- campo oculto para el código completo -->
+            <input type="hidden" id="codigo" name="codigo">
+
+            <button type="submit" class="btn-verificar" id="submitBtn">
+                <span class="btn-text">VERIFICAR CÓDIGO</span>
+                <span class="loader">⌛</span>
+            </button>
+
+            <div class="footer-links">
+                <a href="#" class="resend-link" id="resendLink">Reenviar código</a>
+            </div>
+        </form>
+
+        <div class="oasis-footer">
+            <span>✦</span> BAR OASIS · NOCHE ÁRABE <span>✦</span>
+        </div>
+    </main>
+
+    <!-- JavaScript integrado: funcionalidad OTP + flash simulado + reenvío -->
+    <script src="{{ url_for('static', filename='js/verificarCodigo.js') }}"></script>
+</body>
+</html>
