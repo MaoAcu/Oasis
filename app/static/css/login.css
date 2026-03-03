@@ -1,205 +1,267 @@
-/* --- Variables de la Marca --- */
-:root {
-    --color-gold: #d4af37;        /* Dorado Principal */
-    --color-gold-dark: #b38f2d;   /* Dorado Oscuro para hover */
-    --color-dark-bg: #0a0000;     /* Negro profundo rojizo */
-    --color-card-bg: rgba(16, 4, 4, 0.95); /* Fondo de tarjeta semi-transparente */
-    --color-text-light: #ffffff;
-    --color-text-muted: #aaaaaa;
-    
-    --font-oasis: 'Cinzel Decorative', cursive;
-    --font-script: 'Dancing Script', cursive;
-    --font-body: 'Montserrat', sans-serif;
-}
+ /* --- VARIABLES DE LA MARCA (OASIS) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #d4af37;
+            --gold-hover: #b38f2d;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --grey: #6c757d;
+            --danger: #dc3545;
+            
+            --bg-body: #0d0b0a;
+            --text-main: #eae0d0;
+            --text-light: #ffffff;
+            
+            --font-oasis: 'Cinzel', serif;
+            --font-script: 'Dancing Script', cursive;
+            --font-body: 'Montserrat', sans-serif;
+        }
 
-body {
-    font-family: var(--font-body);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--color-dark-bg);
-    overflow: hidden; /* Evita scroll por el efecto de fondo */
-}
+        body {
+            background: var(--bg-body);
+            background-image: radial-gradient(circle at 30% 40%, rgba(212, 175, 55, 0.12) 0%, transparent 40%),
+                              radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                              linear-gradient(145deg, #0f0e0c 0%, #1e1b16 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body);
+            padding: 1rem;
+            margin: 0;
+            color: var(--text-main);
+        }
 
-/* --- FONDO DESENFOCADO (El Truco Mágico) --- */
-/* Usamos un pseudo-elemento para que el fondo se desenfoque 
-   sin afectar la nitidez de la tarjeta de login */
-body::before {
-    content: "";
-    position: fixed;
-    top: -10px; left: -10px; /* Un pequeño margen para evitar bordes blancos al desenfocar */
-    width: calc(100% + 20px);
-    height: calc(100% + 20px);
-    /* Asegúrate de que la imagen esté en static/img/login-bg.jpg */
-    background: url('../img/login-bg.jpg') no-repeat center center;
-    background-size: cover;
-    filter: blur(8px) brightness(0.4); /* Desenfoque intenso y oscurecimiento */
-    z-index: -1; /* Se coloca detrás de todo */
-}
+        /* contenedor principal */
+        .login-container {
+            width: 100%;
+            max-width: 440px;
+        }
 
+        /* tarjeta oasis */
+        .oasis-card {
+            background: rgba(20, 18, 15, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 2.5rem 1rem 2.5rem 1rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.7), 0 0 0 1px rgba(212, 175, 55, 0.2) inset;
+            padding: 2.8rem 2.5rem;
+            transition: all 0.3s;
+        }
 
-/* --- Tarjeta de Login --- */
-.login-card {
-    background-color: var(--color-card-bg);
-    padding: 3rem 2.5rem;
-    border-radius: 15px;
-    width: 100%;
-    max-width: 450px;
-    text-align: center;
-    color: var(--color-text-light);
-    /* Sombra dorada sutil para un efecto "premium" */
-    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 15px rgba(212, 175, 55, 0.2);
-    border: 1px solid rgba(212, 175, 55, 0.1);
-    backdrop-filter: blur(5px); /* Un ligero efecto vidrio extra en la propia tarjeta */
-}
+        .oasis-card:hover {
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 35px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(212, 175, 55, 0.4) inset;
+        }
 
-/* Tipografía del Encabezado */
-.login-header { margin-bottom: 2.5rem; }
+        /* encabezado */
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
 
-.subtitle {
-    color: var(--color-gold);
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-}
+        .subtitle {
+            font-family: var(--font-script);
+            font-size: 1.8rem;
+            color: var(--gold);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 0.5rem;
+            font-weight: 400;
+        }
 
-.title {
-    font-size: 2.2rem;
-    letter-spacing: 1px;
-    line-height: 1.2;
-    text-transform: uppercase;
-}
+        .title {
+            font-family: var(--font-oasis);
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-shadow: 0 2px 0 #00000055, 0 0 15px #d4af3740;
+            line-height: 1.2;
+        }
 
-/* --- Inputs Elegantes --- */
-.input-group {
-    position: relative;
-    margin-bottom: 2rem;
-    text-align: left;
-}
+        /* flash messages (popup style) */
+        #flash-container {
+            margin-bottom: 1.8rem;
+        }
 
-.input-group input {
-    width: 100%;
-    padding: 15px 10px;
-    font-size: 1rem;
-    font-family: var(--font-body);
-    color: var(--color-text-light);
-    background: transparent;
-    border: none;
-    border-bottom: 2px solid #333;
-    outline: none;
-    transition: 0.3s all ease;
-}
+        .flash-messages {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid #d4af37;
+            border-radius: 40px;
+            padding: 0.9rem 1.5rem;
+            color: #f5d48e;
+            font-size: 0.9rem;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            margin-bottom: 0.8rem;
+        }
 
-/* Estilo de la etiqueta (label) */
-.input-group label {
-    position: absolute;
-    top: 15px;
-    left: 10px;
-    color: var(--color-text-muted);
-    font-size: 1rem;
-    pointer-events: none; /* Para que el clic pase al input */
-    transition: 0.3s all ease;
-}
+        .flash-error {
+            background: rgba(220, 53, 69, 0.15);
+            border-color: #a0444e;
+            color: #f6a5a5;
+        }
 
-/* Efectos al hacer foco en el input */
-.input-group input:focus,
-.input-group input:not(:placeholder-shown) {
-    border-bottom-color: var(--color-gold);
-}
+        .flash-success {
+            background: rgba(46, 204, 113, 0.15);
+            border-color: #2ecc71;
+            color: #a3d9a5;
+        }
 
-/* Mueve el label hacia arriba cuando escribimos (Efecto flotante) */
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown) + label {
-    top: -12px;
-    font-size: 0.85rem;
-    color: var(--color-gold);
-    font-weight: bold;
-}
+        /* grupos de formulario estilo oasis (floating labels) */
+        .input-group {
+            position: relative;
+            margin-bottom: 2rem;
+        }
 
-/* Ocultamos el placeholder nativo para usar nuestro label flotante */
-.input-group input::placeholder { color: transparent; }
+        .input-group input {
+            width: 100%;
+            background: #1f1d18;
+            border: 2px solid #3d382c;
+            border-radius: 60px;
+            padding: 1.2rem 3rem 1.2rem 1.8rem; /* espacio a la derecha para el icono */
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-light);
+            outline: none;
+            transition: all 0.2s;
+        }
 
+        .input-group input:focus {
+            border-color: var(--gold);
+            background: #2d281f;
+            box-shadow: 0 0 0 3px rgba(212,175,55,0.2);
+        }
 
-/* --- Botón Dorado --- */
-.btn-login {
-    width: 100%;
-    padding: 1rem;
-    background: linear-gradient(45deg, var(--color-gold-dark), var(--color-gold));
-    color: #1a0505; /* Texto oscuro para contraste */
-    border: none;
-    border-radius: 50px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.4s;
-    letter-spacing: 2px;
-    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-}
+        .input-group input::placeholder {
+            color: transparent;
+        }
 
-.btn-login:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.5);
-    background: linear-gradient(45deg, var(--color-gold), var(--color-gold-dark));
-}
+        .input-group label {
+            position: absolute;
+            left: 1.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            padding: 0 0.3rem;
+            color: #9b906f;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            pointer-events: none;
+            font-family: var(--font-body);
+            letter-spacing: 0.5px;
+        }
 
-/* Mensajes de error */
-.flash-messages { margin-bottom: 1.5rem; }
-.error-msg { color: #ff6b6b; background: rgba(255,0,0,0.1); padding: 10px; border-radius: 5px; font-size: 0.9rem; }
+        .input-group input:focus ~ label,
+        .input-group input:not(:placeholder-shown) ~ label {
+            top: 0;
+            left: 1.2rem;
+            font-size: 0.75rem;
+            background: #1f1d18;
+            color: var(--gold);
+            padding: 0 0.5rem;
+            border-radius: 20px;
+            transform: translateY(-50%);
+            border-left: 1px solid var(--gold);
+            border-right: 1px solid var(--gold);
+        }
 
-/* --- Responsive --- */
-@media (max-width: 480px) {
-    .login-card { padding: 2rem 1.5rem; }
-    .title { font-size: 1.8rem; }
-}
+        /* Estilo para el icono del ojo */
+        .input-group i {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #b89f60;
+            font-size: 1.3rem;
+            transition: all 0.2s ease;
+            z-index: 2;
+        }
 
-/* --- Contenedor de los flashes --- */
-#flash-container {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        .input-group i:hover {
+            color: var(--gold);
+        }
 
+        /* enlace de olvido */
+        .forgot-password {
+            text-align: right;
+            margin: -0.8rem 0 2rem 0;
+        }
 
-.flash {
-    background-color: #f44336; 
-    color: white;
-    padding: 15px 25px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    opacity: 0.95;
-    transition: all 0.5s ease;
-    text-align: center;
-    min-width: 200px;
-}
+        .forgot-password a {
+            color: #bbaa82;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-bottom: 1px dotted #d4af3780;
+            padding-bottom: 2px;
+            transition: 0.2s;
+        }
 
+        .forgot-password a:hover {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+        }
 
-.flash.success {
-    background-color: #4CAF50;
-}
+        /* botón principal */
+        .btn-login {
+            background: linear-gradient(165deg, #a3883a, #d4af37 60%, #f5d654);
+            border: none;
+            border-radius: 60px;
+            padding: 1rem 2rem;
+            font-family: var(--font-oasis);
+            font-weight: 700;
+            font-size: 1.3rem;
+            letter-spacing: 3px;
+            color: #1a150c;
+            text-shadow: 0 1px 0 #ffecb3;
+            width: 100%;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #7d6728, 0 5px 15px rgba(0,0,0,0.4);
+            transition: all 0.1s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 1px solid #f5e19c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-.flash.error {
-    background-color: #f44336;
-}
+        .btn-login:active {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #7d6728, 0 8px 18px black;
+        }
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-    to {
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-}
+        .btn-login .arrow {
+            font-size: 1.5rem;
+            line-height: 1;
+            transition: transform 0.2s;
+        }
 
-.flash.hide {
-    animation: fadeOut 0.5s forwards;
-}
+        .btn-login:hover .arrow {
+            transform: translateX(5px);
+        }
+
+        /* pie minimalista */
+        .oasis-footer {
+            margin-top: 2.2rem;
+            font-size: 0.7rem;
+            color: #6b624e;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .oasis-footer span { color: var(--gold); }
+
+        @media (max-width: 480px) {
+            .oasis-card { padding: 2rem 1.5rem; }
+            .title { font-size: 1.6rem; }
+            .subtitle { font-size: 1.5rem; }
+            .input-group input { padding-right: 2.8rem; }
+            .input-group i { right: 1.2rem; }
+        }

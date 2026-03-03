@@ -52,8 +52,8 @@ def create_app():
     #  SEGURIDAD DE COOKIES 
     app.config.update(
         SESSION_COOKIE_NAME="session_oasis",  
-        SESSION_COOKIE_PATH="/Oasis",         
-        SESSION_COOKIE_SECURE=True,        
+        SESSION_COOKIE_PATH="/",         
+        SESSION_COOKIE_SECURE=False,        
         SESSION_COOKIE_SAMESITE="Lax",
         SESSION_COOKIE_HTTPONLY=True,              
         PERMANENT_SESSION_LIFETIME=1800        

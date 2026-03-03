@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,send_from_directory,current_app
+from flask import Blueprint, render_template  
 import os
 from .decorators import loginRequired,localRequired,codigoRequired,noCache,codeVerifiedRequired
 
@@ -15,10 +15,7 @@ def Menu():
     return render_template('index.html')
 
  
-# @loginRequired
-# @codigoRequired
-# @localRequired(1,3)
-# @noCache
+ 
 @routes_bp.route("/dashboard", endpoint="dashboard")
 @loginRequired
 @codigoRequired
@@ -36,18 +33,18 @@ def DashBoard():
 def RestablecerContra():
     return render_template('restablecer-contrasena.html')
 
-# @routes_bp.route("/codigo_restablecer", endpoint="codigo_restablecer")
-# def CodigoRestablecer():
-#     return render_template("codigo-restablecer.html")
+@routes_bp.route("/codigo_restablecer", endpoint="codigo_restablecer")
+def CodigoRestablecer():
+    return render_template("codigo-restablecer.html")
 
-# @routes_bp.route("/login", endpoint="login")
-# def Login():
-#     return render_template('login.html')
+@routes_bp.route("/login", endpoint="login")
+def Login():
+    return render_template('login.html')
 
 
-# @routes_bp.route("/recuperar_Contra", endpoint="recuperar_Contra")
-# def RecuperarContrasena():
-#     return render_template("recuperar-Contrasena.html")
+@routes_bp.route("/recuperar_Contra", endpoint="recuperar_Contra")
+def RecuperarContrasena():
+    return render_template("recuperar-Contrasena.html")
 # @loginRequired
 # @noCache
 @routes_bp.route("/Codigo", endpoint="Codigo")

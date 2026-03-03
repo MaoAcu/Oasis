@@ -10,34 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
     cargarNotificaciones();
 });
 
-// ==========================================
-// 0. NOTIFICACIONES Y MENSAJES FLASH
-// ==========================================
-function cargarNotificaciones() {
-    fetch('/api/mensajes')
-        .then(res => res.json())
-        .then(data => {
-            data.forEach(item => mostrarNotificacionDinamica(item.message, item.category));
-        }).catch(err => console.error('Error notificaciones:', err));
-}
 
-function mostrarNotificacionDinamica(mensaje, tipo) {
-    const container = document.getElementById('flash-container');
-    const alerta = document.createElement('div');
-    alerta.className = `flash-messages flash-${tipo === 'success' ? 'success' : 'warning'}`;
-    alerta.textContent = mensaje;
-    container.appendChild(alerta);
-    setTimeout(() => {
-        alerta.style.opacity = '0';
-        setTimeout(() => alerta.remove(), 500);
-    }, 5000);
-}
+
 
 // ==========================================
 // 1. GESTIÓN DEL MENÚ (INVENTARIO)
 // ==========================================
 function cargarProductos() {
-    fetch('/api/productos')
+    fetch('/menu/getmenu')
         .then(res => res.json())
         .then(data => {
             const tbody = document.getElementById('tabla-productos-body');

@@ -14,8 +14,10 @@ const categoryMap = {
     '5': 'bebidas-sin-licor'
 };
 
+
+
 function cargarMenuPublico() {
-    fetch('/api/productos')
+    fetch('/menu/getmenu')
         .then(response => response.json())
         .then(data => {
             // 1. Limpiar los mensajes de "Cargando..."
@@ -37,8 +39,8 @@ function cargarMenuPublico() {
 
                     // Lógica del botón de imagen
                     let botonImagen = '';
-                    if (item.img && item.img.trim() !== '' && item.img !== 'default.jpg') {
-                        const imgPath = `/static/img/${item.img}`;
+                    if (item.imagen && item.imagen.trim() !== '' && item.imagen !== 'default.jpg') {
+                        const imgPath = `${URL_IMG_BASE}${item.imagen}`;
                         // CORRECCIÓN: Pasamos item.precio
                         botonImagen = `
                             <button class="btn-eye" onclick="verPlato('${safeName}', '${safeDesc}', '${item.precio}', '${imgPath}')">

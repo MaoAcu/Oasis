@@ -64,7 +64,7 @@ def convertir_destacado(destacado_str):
 @menu_bp.route("/getmenu", methods=["GET"])
 def GetMenu():
     try:
-        local_id = 3
+        local_id = 2
         menus = Menu.query.filter_by(local=local_id, estado='1').all()
 
         data = [
@@ -82,6 +82,7 @@ def GetMenu():
             }
             for m in menus
         ]
+       
         return jsonify(data), 200
 
     except Exception as e:
@@ -137,7 +138,7 @@ def CreateMenuSection():
         estado_num = 1 if estado_str == 'active' else 0
 
         menu = Menu(
-            local=1,
+            local=2,
             nombre=data.get('nombre'),
             descripcion=data.get('descripcion'),
             precio=data.get('precio'),

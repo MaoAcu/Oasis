@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar Contraseña · Bar Oasis</title>
+    <!-- fuentes (Cinzel + Montserrat + Dancing Script para el logo) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/recuperarContrasena.css') }}">
+</head>
+<body>
+
+    <main class="oasis-card">
+        
+        <div class="logo-oasis">
+            <div class="logo-icon"> OASIS</div>
+            <div class="logo-sub">RESTAURANTE & BAR</div>
+        </div>
+
+        <header>
+            <h1>Recuperar Acceso</h1>
+            <div class="lead">Enviaremos un código a tu correo para restablecer tu contraseña.</div>
+        </header>
+
+        <form id="recoveryForm">
+            <div class="input-group">
+                <label for="usuario" class="form-label">Correo Electrónico</label>
+                <input type="email" 
+                       id="usuario" 
+                       name="usuario" 
+                       class="form-input" 
+                       placeholder="ejemplo@tita.com" 
+                       required>
+                <div class="error-message" id="emailError"></div>
+            </div>
+
+            <button type="button" class="btn-continuar" id="procesarBtn">
+                CONTINUAR
+            </button>
+        </form>
+
+        <div class="footer-links">
+            <a href="/login" class="back-link">
+                <span class="icon">←</span> Volver al inicio de sesión
+            </a>
+        </div>
+
+        <!-- pie decorativo -->
+        <div class="oasis-footer">
+            <span>✦</span> BAR OASIS · NOCHE ÁRABE <span>✦</span>
+        </div>
+    </main>
+    <script>
+        const CODIGO_URL = "{{ url_for('routes.codigo_restablecer') }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/recuperarContrasena.js') }}"></script>
+</body>
+</html>
