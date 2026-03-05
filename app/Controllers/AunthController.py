@@ -11,11 +11,11 @@ auth_bp = Blueprint("auth", __name__)
 def login():
     if request.method == "POST":
 
-        correo = request.form.get("usuario")
+        correo = request.form.get("username")
         password = request.form.get("password")
 
         login = Login.query.filter_by(correo=correo).first()
-
+        print(login)
         if not login:
             flash("Usuario o contraseña incorrectos")
             return redirect(url_for("auth.login"))

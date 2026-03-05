@@ -14,10 +14,7 @@ from .Controllers.menuController import menu_bp
 from .Controllers.credentialController import credential_bp
 from app.models import Usuario, Login, Local
 
- 
-basedir = os.path.abspath(os.path.dirname(__file__))
-load_dotenv(os.path.join(basedir, '.env'))
-
+load_dotenv()
  
 class PrefixMiddleware(object):
     def __init__(self, app, prefix=''):

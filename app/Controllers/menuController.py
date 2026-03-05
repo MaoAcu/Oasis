@@ -82,7 +82,7 @@ def GetMenu():
             }
             for m in menus
         ]
-       
+        print (data)
         return jsonify(data), 200
 
     except Exception as e:
@@ -158,10 +158,10 @@ def CreateMenuSection():
         print(f"[ERROR CreateMenuSection]: {e}")
         return jsonify({"error": "Error al crear producto"}), 500
 
-@menu_bp.route("/menu/<int:idmenu>", methods=["PATCH"])
+@menu_bp.route("/UpdateMenu/<int:idmenu>", methods=["PATCH"])
 def PatchMenuSection(idmenu):
     try:
-        menu = Menu.query.filter_by(idmenu=idmenu, local=3).first()
+        menu = Menu.query.filter_by(idmenu=idmenu, local=2).first()
         if not menu:
             return jsonify({"error": "Producto no encontrado"}), 404
 
@@ -239,10 +239,10 @@ def PatchMenuSection(idmenu):
         print(f"[ERROR PatchMenu]: {e}")
         return jsonify({"error": "No se pudo actualizar"}), 500
     
-@menu_bp.route("/menu/<int:idmenu>", methods=["DELETE"])
+@menu_bp.route("/DeleteMenu/<int:idmenu>", methods=["DELETE"])
 def DeleteMenu(idmenu):
     try:
-        menu = Menu.query.filter_by(idmenu=idmenu, local=3).first()   
+        menu = Menu.query.filter_by(idmenu=idmenu, local=2).first()   
 
         if not menu:
             return jsonify({"error": "Producto no encontrado"}), 404

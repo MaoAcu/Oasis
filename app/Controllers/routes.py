@@ -1,10 +1,8 @@
 from flask import Blueprint, render_template  
 import os
-from .decorators import loginRequired,localRequired,codigoRequired,noCache,codeVerifiedRequired
+from .decorators import loginRequired, localRequired, codigoRequired, noCache, codeVerifiedRequired
 
 routes_bp = Blueprint("routes", __name__)
-
-
 
 @routes_bp.route('/')
 def index():
@@ -14,22 +12,18 @@ def index():
 def Menu():
     return render_template('index.html')
 
- 
- 
+# RUTAS DEL DASHBOARD (MODO DESARROLLO)
 @routes_bp.route("/dashboard", endpoint="dashboard")
-@loginRequired
-@codigoRequired
+@loginRequired     
+@codigoRequired    
 @localRequired(1,3)
-@noCache
+@noCache           
 def DashBoard():
     return render_template('dashboard.html')
 
-
-
-#@codeVerifiedRequired
-
+# RUTAS DE AUTENTICACIÓN Y SEGURIDAD
+@codeVerifiedRequired
 @routes_bp.route("/restablecer_contra", endpoint="restablecer_contra")
-
 def RestablecerContra():
     return render_template('restablecer-contrasena.html')
 
@@ -41,16 +35,12 @@ def CodigoRestablecer():
 def Login():
     return render_template('login.html')
 
-
 @routes_bp.route("/recuperar_Contra", endpoint="recuperar_Contra")
 def RecuperarContrasena():
     return render_template("recuperar-Contrasena.html")
-# @loginRequired
-# @noCache
+
+@loginRequired
+@noCache
 @routes_bp.route("/Codigo", endpoint="Codigo")
 def codigo_verificacion():
     return render_template('codigo-verificacion.html')
-
-
-
-

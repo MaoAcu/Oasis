@@ -89,52 +89,26 @@
                 hiddenCodigo.value = code;
             }
 
-            // ----- ENVÍO DEL FORMULARIO (simula validación, loading y flash) -----
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();  // prevenimos envío real para demo, pero puedes quitarlo
+           // ----- ENVÍO DEL FORMULARIO -----
+form.addEventListener('submit', (e) => {
+    // 1. Actualizamos el código oculto justo antes de validar
+    updateHiddenCode();
+    const fullCode = hiddenCodigo.value;
 
-                updateHiddenCode();
-                const fullCode = hiddenCodigo.value;
+    // 2. Validación de seguridad
+    if (fullCode.length !== 6 || !/^\d+$/.test(fullCode)) {
+        e.preventDefault(); // AQUÍ SÍ lo detenemos si está mal
+        showFlash('⚠️ Ingresa los 6 dígitos del código', 'error');
+        return;
+    }
 
-                // validación simple de 6 dígitos
-                if (fullCode.length !== 6 || !/^\d+$/.test(fullCode)) {
-                    showFlash('⚠️ Ingresa los 6 dígitos del código', 'error');
-                    return;
-                }
-
-                // activar loading
-                submitBtn.classList.add('loading');
-
-                // simular petición asíncrona (verificación)
-                setTimeout(() => {
-                    submitBtn.classList.remove('loading');
-
-                    // SIMULACIÓN: aceptamos cualquier código de 6 dígitos para demostración.
-                    // en un caso real se enviaría mediante POST.
-                    if (fullCode === '123456') {
-                        // podrías redirigir, pero mostramos éxito
-                        showFlash('✅ Código verificado. Redirigiendo...', 'success');
-                        // simular redirect después de 1s
-                        setTimeout(() => {
-                            window.location.href = '/dashboard'; // solo simbólico
-                        }, 1200);
-                    } else {
-                        // código "inválido" didáctico, pero aceptaremos cualquiera para no bloquear demo
-                        // realmente no queremos bloquear al usuario que prueba, así que pondremos éxito.
-                        // Para mantener la experiencia, lanzamos éxito igual (solo demo)
-                        showFlash('✅ (Demo) Código aceptado. Redirigiendo...', 'success');
-                        setTimeout(() => {
-                            // reiniciamos demo: borrar inputs
-                            otpInputs.forEach(inp => inp.value = '');
-                            otpInputs[0].focus();
-                            updateHiddenCode();
-                            // también se podría comentar el redirect de prueba
-                            window.location.href = '#'; // no redirige de verdad
-                        }, 1500);
-                    }
-                }, 1000);
-            });
-
+    // 3. Si llegamos aquí, el código es válido. 
+    // NO usamos e.preventDefault() para que el formulario viaje a Flask.
+    
+    // Activar feedback visual
+    submitBtn.classList.add('loading');
+    submitBtn.disabled = true; // Evita doble clic
+});
             // ----- REENVIAR CÓDIGO (simulado) -----
             const resendLink = document.getElementById('resendLink');
             resendLink.addEventListener('click', (e) => {

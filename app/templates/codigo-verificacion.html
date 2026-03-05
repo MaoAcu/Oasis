@@ -15,7 +15,7 @@
         <!-- Logo estilo oasis (tipográfico pero evocador) -->
         <div class="logo-oasis">
             <div class="logo-icon">Oasis</div>
-            <div class="logo-sub">BAR & CATERING</div>
+            <div class="logo-sub">BAR</div>
         </div>
 
         <header>
@@ -24,7 +24,7 @@
         </header>
 
         <!-- Formulario con método POST (acción igual que en el ejemplo) -->
-        <form method="post" action="/auth/verificar-codigo" id="otp-form">
+        <form method="post" action="{{ url_for('auth.VerificarCodigo') }}" id="otp-form">
             <!-- campos OTP visibles -->
             <div class="otp-wrapper" id="otp-container">
                 <input type="text" class="otp-input" maxlength="1" inputmode="numeric" autocomplete="off" required>
@@ -49,7 +49,7 @@
         </form>
 
         <div class="oasis-footer">
-            <span>✦</span> BAR OASIS · NOCHE ÁRABE <span>✦</span>
+            <span>✦</span>BAR OASIS<span>✦</span>
         </div>
     </main>
 

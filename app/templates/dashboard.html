@@ -2,165 +2,289 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Bar Oasis</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Dashboard · Bar Oasis</title>
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Fuentes Oasis -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 <body>
+    <div id="loader" class="loader-container">
+        <div class="spinner"></div>
+        <p>Cargando oasis...</p>
+    </div>
 
-    <aside class="sidebar">
-        <div class="brand-logo">
-            <span class="brand-bar">Bar</span>
-            <span class="brand-oasis">OASIS</span>
+    <!-- Modal confirmación para eliminar -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fa-solid fa-trash-can"></i>
+            </div>
+            <div class="modal-body">
+                <h3 id="deleteModalTitle">¿Eliminar este elemento?</h3>
+                <p id="deleteModalMessage">Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Cancelar</button>
+                <button class="btn-confirm" id="confirmDeleteBtn">Aceptar</button>
+            </div>
         </div>
-        <ul class="nav-links">
-            <li>
-                <a href="#" class="active" onclick="mostrarSeccionInventario()">
-                    <i class="fas fa-boxes"></i> Inventario Menú
-                </a>
-            </li>
-            
-            {% if session['role'] == 'admin' %}
-            <li class="nav-item">
-                <a href="#" onclick="mostrarSeccionUsuarios()">
-                    <i class="fas fa-users-cog"></i> Gestión de Usuarios (Premium)
-                </a>
-            </li>
-            {% endif %}
+    </div>
 
-            <li>
-                <a href="{{ url_for('routes.Menu') }}" target="_blank">
-                    <i class="fas fa-globe"></i> Ver Página Web
-                </a>
-            </li>
-        </ul>
-
-        <div class="user-info">
-            <span class="user-name">Hola, {{ session['username'] }}</span>
-            <a href="{{ url_for('auth.logout') }}" class="btn-logout">Cerrar Sesión</a>
+    <!-- Modal informativo -->
+    <div id="infoModal" class="modal-overlay">
+        <div class="modal-card modal-info">
+            <div class="modal-icon" id="infoModalIcon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="modal-body">
+                <h3 id="infoModalTitle">Éxito</h3>
+                <p id="infoModalMessage">Operación completada correctamente.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-confirm" onclick="closeInfoModal()">Aceptar</button>
+            </div>
         </div>
-    </aside>
+    </div>
 
-    <main class="main-content">
-        <div id="flash-container">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-              {% if messages %}
-                {% for category, message in messages %}
-                  <div class="flash-messages flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-              {% endif %}
-            {% endwith %}
-        </div>
-
-        <section id="section-inventario">
-            <div class="header-dash">
-                <h1 class="page-title">Gestión del Menú</h1>
-                <button class="btn-add" onclick="abrirModal()">+ Nuevo Producto</button>
-            </div>
-
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Producto</th>
-                            <th>Categoría</th>
-                            <th>Precio</th>
-                            <th style="text-align: right;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-productos-body">
-                        <tr>
-                            <td colspan="4" style="text-align:center; padding: 20px;">
-                                Cargando menú... ⏳
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section id="section-usuarios" style="display: none;">
-            <div class="header-dash">
-                <h1 class="page-title">Gestión de Usuarios</h1>
-                <button class="btn-add" onclick="abrirModalUsuario()">+ Nuevo Usuario</button>
-            </div>
-
-            <div class="card">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nombre de Usuario</th>
-                            <th>Rol / Nivel</th>
-                            <th style="text-align: right;">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-usuarios-body"></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
-
-    <div id="modalUsuario" class="modal">
-        <div class="modal-content" style="max-width: 450px;">
+    <!-- Modal para agregar/editar categoría -->
+    <div id="categoriaModal" class="modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <h2 id="tituloModalUsuario" class="font-oasis" style="color: var(--dark);">Nuevo Acceso</h2>
-                <span class="close" onclick="cerrarModalUsuario()">&times;</span>
+                <h3 id="categoriaModalTitle">Nueva Categoría</h3>
+                <span class="close-modal" onclick="closeCategoriaModal()">&times;</span>
             </div>
-            <form id="formUsuario" onsubmit="guardarUsuario(event)">
-                <input type="hidden" id="user_id" name="id">
-
-                <div class="form-group">
-                    <label for="user_username">Nombre de Usuario <span class="required">*</span></label>
-                    <input type="text" id="user_username" name="username" class="modal-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="user_role">Rol del Sistema <span class="required">*</span></label>
-                    <select id="user_role" name="role" class="modal-input" required>
-                        <option value="editor">Editor (Solo Inventario)</option>
-                        <option value="admin">Administrador (Acceso Total)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="user_password">Contraseña <span id="req_pass" class="required">*</span></label>
-                    <div style="position: relative;">
-                        <input type="password" id="user_password" name="password" class="modal-input" style="padding-right: 40px;">
-                        <span onclick="alternarVisibilidadPassword()" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666;">
-                            <i class="fas fa-eye" id="icon-eye"></i>
-                        </span>
+            <div class="modal-body">
+                <form id="categoriaForm">
+                    <input type="hidden" id="categoriaId">
+                    <div class="form-group">
+                        <label for="categoriaNombre">Nombre de la categoría</label>
+                        <input type="text" id="categoriaNombre" required placeholder="Ej: Cerveza">
                     </div>
-                    <small id="help_pass" style="color: #999; display:none; margin-top: 5px;">
-                        Deja en blanco para no cambiarla.
-                    </small>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn-cancel" onclick="cerrarModalUsuario()">Cancelar</button>
-                    <button type="submit" class="btn-save">Confirmar Usuario</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="modalEliminar" class="modal">
-        <div class="modal-content" style="max-width: 400px; text-align: center;">
-            <div class="modal-header" style="justify-content: center; border-bottom: none;">
-                <h2 class="font-oasis" style="color: #dc3545;">¿Estás seguro?</h2>
-            </div>
-            <div style="padding: 20px 0;">
-                <p id="textoConfirmacion">Esta acción eliminará el registro de forma permanente.</p>
-            </div>
-            <div class="modal-footer" style="justify-content: center; border-top: none;">
-                <button type="button" class="btn-cancel" onclick="cerrarModalEliminar()">Cancelar</button>
-                <button type="button" class="btn-delete-red" id="btnConfirmarEliminarBtn">Sí, Eliminar</button>
+                    <div class="form-group">
+                        <label for="categoriaIcono">Icono</label>
+                        <select id="categoriaIcono" required>
+                            <option value="fa-beer">🍺 Cerveza</option>
+                            <option value="fa-wine-bottle">🥃 Licor</option>
+                            <option value="fa-smoking">🚬 Tabaco</option>
+                            <option value="fa-bowl-food">🍽️ Para picar</option>
+                            <option value="fa-wine-glass-alt">🍷 Bebidas sin licor</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeCategoriaModal()">Cancelar</button>
+                        <button type="submit" class="btn-save">Guardar Categoría</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-    
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <div class="sidebar-overlay"></div>
+        
+        <!-- Sidebar Oasis -->
+        <div class="sidebar">
+            <div class="logo">
+                <h2><i class="fas fa-moon"></i> Oasis</h2>
+                <p class="restaurant-subtitle">RESTAURANTE & BAR</p>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="sidebar-section-title">PRODUCTOS POR CATEGORÍA</div>
+                <ul id="categoriasList"></ul>
+                <div class="sidebar-divider"></div>
+            </nav>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <p class="user-name">Administrador</p>
+                        <p class="user-role">Dueño</p>
+                    </div>
+                </div>
+                <a href="javascript:void(0)" style="text-decoration: none;" id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Salir
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <header class="top-bar">
+                <button id="menuToggle" class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 id="sectionTitle">Gestionar Categorías</h1>
+                <div class="header-actions">
+                    <button id="saveAllBtn" class="btn-save" style="display: none;">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </header>
+
+            <!-- Sección de categorías -->
+            <div id="categoriasSection" class="content-section" style="display: block;">
+                <div class="section-header">
+                    <h2><i class="fas fa-folder"></i> Todas las Categorías</h2>
+                    <button id="btnNuevaCategoriaHeader" class="btn-add-item">
+                        <i class="fas fa-plus"></i> Nueva Categoría
+                    </button>
+                </div>
+                <div id="categoriasGrid" class="categorias-grid"></div>
+            </div>
+
+            <!-- Sección de productos -->
+            <div id="productosSection"></div>
+
+            <!-- Sección de Configuración -->
+            <div id="configSection" class="content-section" style="display: none;">
+                <div class="config-container">
+                    <h2><i class="fas fa-cog"></i> Configuración General</h2>
+                    <div class="config-grid">
+                        <div class="config-card">
+                            <div class="config-form">
+                                <div class="form-group">
+                                    <label>Nombre del Restaurante</label>
+                                    <input type="text" id="restaurantName" placeholder="Ej: Bar Oasis">
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <textarea id="restaurantDescription" rows="3" placeholder="Breve descripción"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Horario</label>
+                                    <input type="text" id="restaurantHours" placeholder="Ej: Lunes a Domingo 9:00-22:00">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="config-card">
+                            <h3><i class="fas fa-user-shield"></i> Seguridad</h3>
+                            <div class="config-form">
+                                <div class="form-group">
+                                    <label>Cambiar Contraseña</label>
+                                    <input type="password" id="newPassword" placeholder="Nueva contraseña">
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirmar Contraseña</label>
+                                    <input type="password" id="confirmPassword" placeholder="Confirmar">
+                                </div>
+                                <button id="saveConfigBtn" class="btn-save">
+                                    <i class="fas fa-save"></i> Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón flotante para volver a categorías -->
+    <button id="fabCategorias" class="fab-categorias" style="display: none;" onclick="switchSection('categorias')">
+        <i class="fas fa-folder"></i>
+        <span>Gestionar Categorías</span>
+    </button>
+
+    <!-- Modal para editar items -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Editar Producto</h3>
+                <span class="close-modal" onclick="closeItemModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="itemForm" enctype="multipart/form-data">
+                    <input type="hidden" id="itemId" name="id">
+                    
+                    <div class="form-group">
+                        <label for="itemName">Nombre del Producto</label>
+                        <input type="text" id="itemName" name="nombre" required placeholder="Ej: Hamburguesa Especial">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemDescription">Descripción</label>
+                        <textarea id="itemDescription" name="descripcion" rows="3" placeholder="Describe el producto"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="categoria">Categoría</label>
+                        <select id="categoria" name="categoria" class="form-control" required>
+                            <option value="">Seleccionar categoría</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemPrice">Precio (₡)</label>
+                        <div class="price-input">
+                            
+                            <input type="number" id="itemPrice" name="precio" step="0.01" min="0" required placeholder="0.00">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemImageFile">Imagen del Producto</label>
+                        <div class="image-upload-container">
+                            <input type="file" id="itemImageFile" name="image" accept=".jpg,.jpeg,.png,.webp" style="display: none;">
+                            <div class="image-preview" id="imagePreview">
+                                <img src="" alt="Vista previa" style="max-width: 100%; max-height: 150px; display: none;">
+                            </div>
+                            <div class="image-actions">
+                                <button type="button" class="btn-image-upload" onclick="document.getElementById('itemImageFile').click()">
+                                    <i class="fas fa-cloud-upload-alt"></i> Seleccionar imagen
+                                </button>
+                                <span id="imageFileName" class="file-name"></span>
+                            </div>
+                        </div>
+                        <small>Formatos: JPG, PNG, WEBP</small>
+                        <input type="hidden" id="itemImage" name="imagen_url" value="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="itemStatus">Estado</label>
+                        <div class="status-toggle">
+                            <button type="button" class="status-btn active" data-status="active">Activo</button>
+                            <button type="button" class="status-btn" data-status="inactive">Inactivo</button>
+                            <input type="hidden" id="itemStatus" name="estado" value="active">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>¿Destacado?</label>
+                        <div class="estrellas-container">
+                            <button type="button" class="estrella-simple" id="estrellaSimple" data-destacado="0">
+                                <i class="far fa-star"></i>
+                            </button>
+                            <span id="destacadoText">No destacado</span>
+                            <input type="hidden" id="itemDestacado" name="destacado" value="0">
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="itemSubcategoria" name="subcategoria" value="">
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-cancel" onclick="closeItemModal()">Cancelar</button>
+                        <button type="submit" class="btn-save">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales (desde Flask)
+        const URL_IMG_BASE = "{{ url_for('static', filename='images/') }}";
+        const URL_IMG_DEFAULT="https://titaservice.com/gallery/LogoT.I.T.A.webp"
+        const URL_LOG="{{ url_for('auth.logout') }}"
+
+    </script>
+     
+     <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 </body>
 </html>
