@@ -219,15 +219,9 @@
                 e.preventDefault();
 
                 const newPassword = document.getElementById('newPassword').value;
-
-                // Simulación de fetch (tu endpoint real, pero evitamos redirección forzada)
-                // Usamos un setTimeout para simular respuesta exitosa y mostrar modal
+                
                 setTimeout(() => {
-                    // Simulamos respuesta exitosa
-                    showModal('¡Contraseña actualizada!', 'Tu contraseña se cambió correctamente. Serás redirigido al login.', 'success', '/login');
-                    
-                    // En un entorno real harías:
-                    /*
+
                     fetch('/crede/update_password', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -245,7 +239,6 @@
                         console.error('Error:', error);
                         showModal('Error', 'No se pudo conectar al servidor.', 'error');
                     });
-                    */
                 }, 800);
             });
 

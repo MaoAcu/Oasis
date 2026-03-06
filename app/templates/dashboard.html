@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
 </head>
 <body>
-    <div id="loader" class="loader-container">
-        <div class="spinner"></div>
-        <p>Cargando oasis...</p>
+    <div class="loader-container" id="loader">
+        <div class="container-loader"> 
+            <div class="half"></div>
+            <div class="half"></div>
+        </div>
+        <p class="loader-text">Cargando Oasis...</p>
     </div>
 
     <!-- Modal confirmación para eliminar -->

@@ -17,7 +17,8 @@ def Menu():
 @loginRequired     
 @codigoRequired    
 @localRequired(1,3)
-@noCache           
+@noCache
+
 def DashBoard():
     return render_template('dashboard.html')
 

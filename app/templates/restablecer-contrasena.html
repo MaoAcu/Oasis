@@ -108,7 +108,7 @@
             </form>
 
             <!-- Vuelta al login -->
-            <a href="/auth/login" class="secondary-btn">
+            <a href="{{ url_for('auth.login') }}" class="secondary-btn">
                  <span class="btn-icon">←</span>
                  <span>Volver al inicio de sesión</span>
             </a>
@@ -119,7 +119,11 @@
         </div>
     </div>
 
-   
+   <script>
+        const URL_UPDATE_PASSWORD = "{{ url_for('crede.UpdatePassword') }}";
+        const URL_LOGIN = "{{ url_for('auth.login') }}";
+    </script>
+
     <script src="{{ url_for('static', filename='js/restablecerpassword.js') }}" ></script>
 </body>
 </html>
